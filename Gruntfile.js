@@ -10,6 +10,9 @@ module.exports = function(grunt) {
             tasks: ['mkdir', 'availabletasks', 'warn', 'default']
         }}               // target 
         },
+    ca: {
+       ca: '/etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem'
+    },
     exportDevs: {
        dest: './data/devs'       
     },
