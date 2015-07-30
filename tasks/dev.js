@@ -1,9 +1,13 @@
 /*jslint node: true */
+var fs = require('fs');
 var request = require('request');
 var apigee = require('../config.js');
 var devs;
 module.exports = function(grunt) {
 	'use strict';
+	var capath = grunt.config.get("ca.ca.data");
+	var ca = fs.readFileSync(capath);
+	request = request.defaults({ca: ca});
 	grunt.registerTask('exportDevs', 'Export all developers from org ' + apigee.from.org + " [" + apigee.from.version + "]", function() {
 		var url = apigee.from.url;
 		var org = apigee.from.org;

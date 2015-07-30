@@ -1,10 +1,14 @@
 /*jslint node: true */
+var fs = require('fs');
 var request = require('request');
 var apigee = require('../config.js');
 var async = require('async');
 var apps;
 module.exports = function(grunt) {
 	'use strict';
+	var capath = grunt.config.get("ca.ca.data");
+	var ca = fs.readFileSync(capath);
+	request = request.defaults({ca: ca});
 
 	grunt.registerMultiTask('importKeys', 'Import all app keys to org ' + apigee.to.org + " [" + apigee.to.version + "]", function() {
 		var url = apigee.to.url;
@@ -152,7 +156,7 @@ module.exports = function(grunt) {
 				cKey = encodeURI(cKey);
 				var delete_key_url = url + dev + "/apps/" + app.name + "/keys/" + cKey;
 				grunt.verbose.writeln(delete_key_url);    	
-				request.del(delete_key_url , function(error, response, body){
+				request.del(delete_key_url, function(error, response, body){
 				  var status = 999;
 				  if (response)	
 				  	status = response.statusCode;
